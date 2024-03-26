@@ -1,3 +1,5 @@
+
+
 import numpy as np
 """
 class Matrice : 
@@ -21,7 +23,14 @@ def fromTabToCoord(tableau):
     return res
     
 def fromCoordToTab(hauteur,largeur,coordonnees):
-     return [[1 if (i,j) in coordonnees else 0 for j in range(largeur)] for i in range(hauteur)]     
+     return [[1 if (i,j) in coordonnees else 0 for j in range(largeur)] for i in range(hauteur)]
+ 
+def copie(tab):
+    res =[0 for i in range(len(tab))]
+    for i in range(len(tab)):
+        res[i] = tab[i]
+    return res
+
      
 class Polyomino:
     def __init__(self,c=[]):
@@ -45,18 +54,34 @@ class Polyomino:
         return res
         
     def __str__(self):
-        print(self.coord)
+        res = ""
+        tab = fromCoordToTab(self.hauteur+1, self.largeur+1, self.coord)
+        for elem in tab:
+            res+="\n"
+            for val in elem:
+                res += str(val) + " "
+        return res
         
-        a = fromCoordToTab(self.hauteur+1, self.largeur+1, self.coord)
-        
-        for elem in a:
-            print(a)
-        
-        return ""
-        
-    def rotation(self):
-        tab = fromCoordToTab(self.hauteur,self.largeur,self.tab)
-        return np.rot90(np.array(tab))
+    def rotate(self):
+        """Modifie le polyomino en le pivotant de 90 degrés."""
+        tab = fromCoordToTab(self.hauteur+1,self.largeur+1,self.coord)
+        tab_rotate =  np.rot90(np.array(tab))
+        self.coord = fromTabToCoord(tab_rotate)
+        self.hauteur, self.largeur = self.largeur, self.hauteur
+        return None
+    
+    
+    def symetrie(self,axis=0):
+        """Renvoie la symétrie de la matrice. axis = 0 : axe horizontal, axis=1 : axe vertical"""
+        tab = fromCoordToTab(self.hauteur+1,self.largeur+1,self.coord)
+        if axis == 0:
+            for i in range(len(tab)):
+                for j in range(len(tab[i])//2):
+                    tab[i][j], tab[i][len(tab[i])-j-1] = tab[i][len(tab[i])-j-1],tab[i][j]
+        if axis == 1:
+            for i in range(len(tab)//2):
+                tab[i],tab[len(tab)-i-1] = tab[len(tab)-i-1] , tab[i]
+        self.coord = fromTabToCoord(tab)
         return None
         
     
@@ -78,18 +103,19 @@ MatI = [[1,0,0,0],
         [1,0,0,0],
         [1,0,0,0]]
 
+test = [[0,0, 1],[1,1,1]]
+"""
+for elem in test:
+    print(elem)"""
 coordL = fromTabToCoord(MatL)
-"""
-tab = fromCoordToTab(3,2,coordL)
-for elem in tab :
-    print(elem)
+tab = fromCoordToTab(3, 2, coordL)
 
-test = fromCoordToTab(3,2,coordL)
-for elem  in test:
-    print (elem)
-"""
+
+
 a = Polyomino(coordL)
-#print(a.coord, a.hauteur, a.largeur)
+print(a)
+a.symetrie(0)
+
 print(a)
 
     
