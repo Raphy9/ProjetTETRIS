@@ -38,9 +38,9 @@ class Polyomino:
         maxL = 0
         for i in range(len(c)):
             if(c[i][0]>maxH):
-                maxH = c[i][0]
+                maxL = c[i][0]
             if(c[i][1]>maxL):
-                maxL = c[i][1]
+                maxH = c[i][1]
         self.hauteur = maxH
         self.largeur = maxL
         self.taille = len(c)
