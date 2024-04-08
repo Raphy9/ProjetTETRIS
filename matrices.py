@@ -45,7 +45,16 @@ class Polyomino:
             for val in elem:
                 res += str(val) + " "
         return res
-
+    
+    def dans(self,tab):
+       for elem in tab:
+       if(len(elem.coord)!=len(self.coord)):
+           return False
+        for i in range(len(elem.coord)):
+            if elem.coord[i]!=self.coord[i]:
+                return False
+        return True
+    
     #Q2
     def rotate(self):
         """Renvoie une copie du polyomino en le pivotant de 90 degrés."""
@@ -69,14 +78,12 @@ class Polyomino:
     def classeComplete(self):
         res = [self]
         p2 = self.copie()
-        for i in range(4):
+        for i in range(3):
             p2 = p2.rotate()
-            if not p2 in res:
+            if not p2.dans(res):
+                #print("a")
                 res.append(p2)
-            for j in range(2):
-                p3 = p2.symetrie(i)
-                if not p3 in res:
-                    res.append(p3)
+            
         return res
         
         
@@ -100,11 +107,14 @@ MatI = [[1,0,0,0],
         [1,0,0,0]]
         
 a = Polyomino(fromTabToCoord(MatL))
+c = Polyomino(fromTabToCoord(MatI))
 b = a.classeComplete()
+"""
 for elem in b:
-    print(elem.coord)
+    #print(elem.coord)
     print(elem)
     print("----------------")
+print(c in b)"""
 
 
         
