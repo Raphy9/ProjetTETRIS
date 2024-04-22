@@ -1,3 +1,4 @@
+import numpy as np
 """
 2. Modélisation et explorations 
 
@@ -18,6 +19,24 @@ paramètres :
 - t un tableau d'entiers representant l'ensemble des longueurs des polyominos rectangulaires de la forme (1,k)
 return : le nombre de manières de paver le rectangle considéré
  """
+ liste_ut = np.array([t[i] for i in range(len(t)) if t[i] <= n ])
+ if(len(liste_ut) == 0):
+     return "Pas de pavage"
+ else:
+     liste_res = []
+     for poly_long in liste_ut:
+         while()
+         
+     """
+     for i in range(len(liste_ut)):
+         for j in range(liste_ut[i]):
+             grille[j] = i
+     """
+        
+ 
+Pavage_1D()
+ 
+"""
 #coinSizes = [1, 2, 5, 10, 20, 50]
 ways = [0] * (n + 1)
 ways[0] = 1
@@ -26,3 +45,4 @@ for l in t:
         ways[i] += ways[i-l]
     print(ways)
 print(f"Il y a {ways[-1]} façons de paver {n} avec des polyominos de longueur {t}")
+"""
