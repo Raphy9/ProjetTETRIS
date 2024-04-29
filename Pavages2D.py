@@ -150,7 +150,7 @@ print(f"Il y a {ways[-1]} façons de paver {n} avec des polyominos de longueur {
 
 def est_valide(grille, polyomino, x, y):
     for elem in polyomino.coord:
-        if x + elem[0] >= len(grille) or y + elem[1] >= len(grille[0]):
+        if x + elem[0] >= len(grille) or y + elem[1] >= len(grille[x]):
             return False
         if grille[x + elem[0]][y + elem[1]] != 0:
             return False
