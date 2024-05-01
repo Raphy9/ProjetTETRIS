@@ -1,4 +1,4 @@
-def Pavage_1D(n, tiles):
+def Pavage_1D(n, polyominos):
     """
     1. Fonction Pavage_1D
 
