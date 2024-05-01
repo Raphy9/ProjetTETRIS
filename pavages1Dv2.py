@@ -86,17 +86,17 @@ def Pavage_1D(n, tiles):
     if n == 0:
         return [[]]  # Retourne une liste contenant une liste vide (solution trouvée)
     
-    solutions = []  # Initialise une liste pour stocker les solutions
+    liste_pavages = []  # Initialise une liste pour stocker les solutions
     
-    for tile in tiles:
-        if tile <= n:
+    for poly in polyominos:
+        if poly <= n:
             # Récursion : trouve toutes les solutions possibles pour le reste de la longueur
-            sub_solutions = Pavage_1D(n - tile, tiles)
+            pavages_partiels = Pavage_1D(n - poly, polyominos)
             # Pour chaque sous-solution, ajoute la tuile actuelle
-            for sub_solution in sub_solutions:
-                solutions.append([tile] + sub_solution)
+            for sous_pavages in pavages_partiels:
+                liste_pavages.append([poly] + sous_pavages)
     
-    return solutions
+    return liste_pavages
 
 # Exemple d'utilisation
 solutions = Pavage_1D(4, [1, 2])
