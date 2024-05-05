@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-
+import random
 from random import randint
 """
 2. Modélisation et explorations 
@@ -197,9 +197,6 @@ polyominos.append(Polymino_C)
 
 
 
-
-
-
 # Définir un polyomino simple, par exemple un L-tromino
 polyomino = [(0, 0), (1, 0), (1, 1)]
 
@@ -225,53 +222,99 @@ def get_polyomino(Grille):
     return resd
 
 
-if trouver_pavage(grille, polyominos):
-    print("Tiling possible")
-else:
-    print("No tiling found")
+
+def affiche_PAVAAAGE(grille, polyominos):
+    couleur = [
+    "forestgreen",
+    "orange",
+    "darkgoldenrod",
+    "khaki",
+    "gold",
+    "blueviolet",
+    "thistle",
+    "salmon",
+    "violet",
+    "tomato",
+    "purple",
+    "coral",
+    "fuchsia",
+    "olivedrab",
+    "sienna",
+    "chocolate",
+    "hotpink",
+    "sandybrown",
+    "dodgerblue",
+    "palevioletred",
+    "peachpuff",
+    "crimson",
+    "pink",
+]
+
+
+
+
+    trouver_pavage(grille, polyominos)
+    if(not grille):
+        print("On ne peut pas paver ! ")
+        return None
+    hauteur = 0
+    for elem in grille:
+        if len(elem)>hauteur:
+            hauteur = len(elem)
+    grilleVide = [[0 for i in range(hauteur)] for j in range(hauteur)]
+    largeur = len(grille)
+    tab = []
+
+    for i in range(largeur):
+        for j in range(hauteur):
+            try:
+                grilleVide[i][j] = grille[i][j]
+            except IndexError:
+                tab.append((i,j))
+    pvide = Polyomino(tab)
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, largeur)
+    ax.set_ylim(0, hauteur)
     
+    tab = get_polyomino(grille)
 
-tailleG = 0
-for elem in grille:
-    if len(elem)>tailleG:
-        tailleG = len(elem)
+     # Configurer les axes
+    ax.set_aspect('equal')
+    ax.set_xticks(range(largeur))
+    ax.set_yticks(range(hauteur))
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.grid(True)
+    for elem in tab:
+        draw_polyomino(ax, elem,couleur[random.randint(0,len(couleur)-1)])
+    draw_polyomino(ax, pvide,color = "black")
+    return None
 
-grilleVide = [[0 for i in range(tailleG)] for j in range(tailleG)]
 
-tab = []
+def create_z_lengths(size):
+    # La liste des longueurs des lignes pour former un Z
+    lengths = []
 
-for i in range(len(grille),tailleG-1):
-    for j in range(,tailleG-1):
-        tab.append((i,j))
-pvide = Polyomino(tab)
-
+    # Ajouter la première ligne pleine
+    lengths.append([0 for i in range(size)])
     
-fig, ax = plt.subplots()
-ax.set_xlim(0, 20)
-ax.set_ylim(0, 20)
-test = get_polyomino(grille)
+    # Créer la diagonale descendante du Z
+    for i in range(1, size//2):
+        # La longueur de chaque ligne intermédiaire est réduite
+        lengths.append([0 for i in range(size - i - 1)])
+    for i in range(size//2, size-1):
+        lengths.append([0 for j in range(i)])
 
+    return lengths
 
-# Configurer les axes
-ax.set_aspect('equal')
-ax.set_xticks(range(21))
-ax.set_yticks(range(21))
-ax.set_xticklabels([])
-ax.set_yticklabels([])
-ax.grid(True)
-
-couleur = ['red','cyan','yellow','purple','gold','darkviolet', 'dodgerblue','springgreen']
-cpt = 0
-for hihi in grille:
-    print(hihi)
+g = create_z_lengths(10)
+print("lol")
+for elem in g:
+    print(elem)
+affiche_PAVAAAGE(g, polyominos)
     
     
-for LiLil in test:
-    draw_polyomino(ax, LiLil,couleur[cpt%len(couleur)])
-    cpt+=1
-draw_polyomino(ax, pvide,color = "black")
     
-
 
 
 # Afficher la figure
