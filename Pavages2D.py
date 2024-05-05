@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
 from random import randint
 """
 2. Modélisation et explorations 
@@ -180,34 +182,98 @@ def trouver_pavage(grille, polyominos, id_polyomino=1):
                             return True
                         grille = retirer_polyomino(grille, polyomino, x, y)
                 return False
-    """
-    for i in range(len(grille)):
-    for j in range(len(grille[i])):
-    grille[i][j] += randint(0, 30)
-    """
     return True
 
 taille_grille = 10
 grille = [[0 for I1Il1l1I in range(taille_grille - x)] for x in range(taille_grille - 5)]
 for hihi in grille:
     print(hihi)
-#polyominos = [Polyomino([(0, 0), (0,1),(1,0),(1,1)]), Polyomino([(0,0),(1,0),(0,1)])]
-Polyomino_L = Polyomino([(0,0), (1,0), (0,1), (0,2)])
-polyominos = Polyomino_L.classeComplete()
-#polyominos.append(Polyomino([(0,0), (0,1), (1,0), (1,1)]))
-polyominos.append(Polyomino([(0,0)]))
 
+
+Polyomino_L = Polyomino([(0,0), (1,0), (0,1), (0,2)])
+Polymino_C = Polyomino([(0,0)])
+polyominos = Polyomino_L.classeComplete()
+polyominos.append(Polymino_C)
+
+
+
+
+
+
+# Définir un polyomino simple, par exemple un L-tromino
+polyomino = [(0, 0), (1, 0), (1, 1)]
+
+# Fonction pour dessiner un polyomino à une position spécifique
+def draw_polyomino(ax, polyomino, color='blue'):
+    # Créer un polygone pour chaque bloc du polyomino
+    for dx, dy in polyomino.coord:
+        square = patches.Rectangle((dx,dy), 1, 1, edgecolor='black', facecolor=color)
+        ax.add_patch(square)
+        
+def get_polyomino(Grille):
+    res = {}
+    for i in range(len(Grille)):
+        for j in range(len(Grille[i])):
+            if not Grille[i][j] in res:
+                res[Grille[i][j]] = [(i,j)]
+            else:
+                res[Grille[i][j]].append((i,j))
+    resd = []
+    print(res)
+    for elem in res:
+        resd.append(Polyomino(res[elem]))
+    return resd
 
 
 if trouver_pavage(grille, polyominos):
     print("Tiling possible")
 else:
     print("No tiling found")
+    
+
+tailleG = 0
+for elem in grille:
+    if len(elem)>tailleG:
+        tailleG = len(elem)
+
+grilleVide = [[0 for i in range(tailleG)] for j in range(tailleG)]
+
+tab = []
+
+for i in range(len(grille),tailleG-1):
+    for j in range(,tailleG-1):
+        tab.append((i,j))
+pvide = Polyomino(tab)
+
+    
+fig, ax = plt.subplots()
+ax.set_xlim(0, 20)
+ax.set_ylim(0, 20)
+test = get_polyomino(grille)
+
+
+# Configurer les axes
+ax.set_aspect('equal')
+ax.set_xticks(range(21))
+ax.set_yticks(range(21))
+ax.set_xticklabels([])
+ax.set_yticklabels([])
+ax.grid(True)
+
+couleur = ['red','cyan','yellow','purple','gold','darkviolet', 'dodgerblue','springgreen']
+cpt = 0
 for hihi in grille:
     print(hihi)
+    
+    
+for LiLil in test:
+    draw_polyomino(ax, LiLil,couleur[cpt%len(couleur)])
+    cpt+=1
+draw_polyomino(ax, pvide,color = "black")
+    
 
-#plt.matshow(grille)
-#plt.show()
-"""print(type(polyominos))
-print(polyominos[0])
-"""
+
+
+# Afficher la figure
+plt.show()
+
